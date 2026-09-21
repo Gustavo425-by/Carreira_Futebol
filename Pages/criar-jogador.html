@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Criar Carreira</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at top, #172033 0%, #090d14 45%, #05070b 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: min(1150px, 92%);
+            margin: 0 auto;
+            padding: 45px 0 70px;
+        }
+
+        .top {
+            margin-bottom: 35px;
+        }
+
+        .top h1 {
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .top p {
+            color: #9da8ba;
+            font-size: 15px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.4fr 0.8fr;
+            gap: 25px;
+        }
+
+        .card {
+            background: rgba(15, 21, 32, 0.94);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,.25);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 22px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 13px;
+            color: #aeb8c9;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px 14px;
+            border-radius: 10px;
+            border: 1px solid #283347;
+            background: #0b1019;
+            color: white;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #4f8cff;
+        }
+
+        .section-title {
+            margin-top: 28px;
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: #dbe4f5;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .option {
+            border: 1px solid #273247;
+            background: #0b1019;
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .option:hover {
+            border-color: #4f8cff;
+        }
+
+        .option input {
+            width: auto;
+            margin-right: 7px;
+        }
+
+        .notice {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 10px;
+            background: rgba(43, 104, 255, .10);
+            border: 1px solid rgba(79, 140, 255, .20);
+            color: #b8caff;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .preview {
+            position: sticky;
+            top: 25px;
+            height: fit-content;
+        }
+
+        .player-card {
+            background:
+                linear-gradient(145deg, #162235, #0b1018);
+            border-radius: 18px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,.08);
+        }
+
+        .player-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .player-name {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .player-country {
+            color: #aeb8c9;
+            font-size: 14px;
+        }
+
+        .overall {
+            font-size: 34px;
+            font-weight: bold;
+        }
+
+        .overall span {
+            display: block;
+            font-size: 11px;
+            color: #7e8aa0;
+            text-align: right;
+        }
+
+        .preview-info {
+            display: grid;
+            gap: 10px;
+        }
+
+        .preview-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 11px 0;
+            border-bottom: 1px solid rgba(255,255,255,.06);
+        }
+
+        .preview-row span:first-child {
+            color: #8995a9;
+        }
+
+        .preview-row span:last-child {
+            font-weight: bold;
+        }
+
+        .league-box {
+            margin-top: 18px;
+            padding: 15px;
+            background: rgba(255,255,255,.04);
+            border-radius: 12px;
+        }
+
+        .league-box small {
+            display: block;
+            color: #7e8aa0;
+            margin-bottom: 6px;
+        }
+
+        .league-box strong {
+            font-size: 16px;
+        }
+
+        .button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #3478ff, #5a91ff);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+        }
+
+        @media (max-width: 850px) {
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .preview {
+                position: static;
+            }
+
+            .options {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top">
+        <h1>Criar Carreira</h1>
+        <p>Crie seu jogador e comece sua jornada no futebol.</p>
+    </div>
+
+    <div class="layout">
+
+        <div class="card">
+
+            <h2>Dados do jogador</h2>
+
+            <div class="form-grid">
+
+                <div class="field full">
+                    <label for="playerName">Nome do jogador</label>
+
+                    <input
+                        type="text"
+                        id="playerName"
+                        placeholder="Digite o nome do jogador"
+                    >
+                </div>
+
+                <div class="field">
+                    <label for="playerAge">Idade</label>
+
+                    <select id="playerAge">
+
+                        <option value="16">16 anos</option>
+                        <option value="17" selected>17 anos</option>
+                        <option value="18">18 anos</option>
+                        <option value="19">19 anos</option>
+                        <option value="20">20 anos</option>
+                        <option value="21">21 anos</option>
+                        <option value="22">22 anos</option>
+
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="playerCountry">País</label>
+
+                    <select id="playerCountry">
+
+                        <option value="brazil">🇧🇷 Brasil</option>
+                        <option value="argentina">🇦🇷 Argentina</option>
+                        <option value="portugal">🇵🇹 Portugal</option>
+                        <option value="spain">🇪🇸 Espanha</option>
+                        <option value="england">🏴 Inglaterra</option>
+                        <option value="france">🇫🇷 França</option>
+                        <option value="germany">🇩🇪 Alemanha</option>
+                        <option value="italy">🇮🇹 Itália</option>
+
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="playerHeight">Altura</label>
+
+                    <select id="playerHeight">
+
+                        <option value="1.65">1,65 m</option>
+                        <option value="1.70">1,70 m</option>
+                        <option value="1.75" selected>1,75 m</option>
+                        <option value="1.80">1,80 m</option>
+                        <option value="1.85">1,85 m</option>
+                        <option value="1.90">1,90 m</option>
+                        <option value="1.95">1,95 m</option>
+
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="playerFoot">Pé dominante</label>
+
+                    <select id="playerFoot">
+
+                        <option value="Direito">Direito</option>
+                        <option value="Esquerdo">Esquerdo</option>
+                        <option value="Ambidestro">Ambidestro</option>
+
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="section-title">
+                Posição
+            </div>
+
+            <div class="options">
+
+                <label class="option">
+                    <input type="radio" name="position" value="GOL">
+                    GOL
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="position" value="ZAG">
+                    ZAG
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="position" value="LAT">
+                    LAT
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="position" value="VOL">
+                    VOL
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="position" value="MC">
+                    MC
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="position" value="MEI" checked>
+                    MEI
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="position" value="PE">
+                    PE
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="position" value="PD">
+                    PD
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="position" value="ATA">
+                    ATA
+                </label>
+
+            </div>
+
+            <div class="section-title">
+                Estilo de jogador
+            </div>
+
+            <div class="options">
+
+                <label class="option">
+                    <input type="radio" name="style" value="Craque Criativo" checked>
+                    Craque Criativo
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="style" value="Velocista">
+                    Velocista
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="style" value="Finalizador">
+                    Finalizador
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="style" value="Tanque">
+                    Tanque
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="style" value="Cérebro">
+                    Cérebro
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="style" value="Homem de Área">
+                    Homem de Área
+                </label>
+
+            </div>
+
+            <div class="notice">
+                🌍 <strong>Início da carreira:</strong><br>
+                O país escolhido define automaticamente a sua liga e o seu clube inicial.
+                Você não poderá começar em outro país. Transferências internacionais acontecerão
+                posteriormente durante a carreira.
+            </div>
+
+        </div>
+
+        <div class="preview">
+
+            <div class="card">
+
+                <h2>Prévia do jogador</h2>
+
+                <div class="player-card">
+
+                    <div class="player-head">
+
+                        <div>
+
+                            <div
+                                class="player-name"
+                                id="previewName"
+                            >
+                                Seu Jogador
+                            </div>
+
+                            <div
+                                class="player-country"
+                                id="previewCountry"
+                            >
+                                🇧🇷 Brasil
+                            </div>
+
+                        </div>
+
+                        <div class="overall">
+
+                            68
+
+                            <span>OVR</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="preview-info">
+
+                        <div class="preview-row">
+                            <span>Idade</span>
+                            <span id="previewAge">17 anos</span>
+                        </div>
+
+                        <div class="preview-row">
+                            <span>Posição</span>
+                            <span id="previewPosition">MEI</span>
+                        </div>
+
+                        <div class="preview-row">
+                            <span>Estilo</span>
+                            <span id="previewStyle">Craque Criativo</span>
+                        </div>
+
+                        <div class="preview-row">
+                            <span>Pé</span>
+                            <span id="previewFoot">Direito</span>
+                        </div>
+
+                        <div class="preview-row">
+                            <span>Altura</span>
+                            <span id="previewHeight">1,75 m</span>
+                        </div>
+
+                    </div>
+
+                    <div class="league-box">
+
+                        <small>INÍCIO DA CARREIRA</small>
+
+                        <strong id="previewLeague">
+                            🇧🇷 Brasil
+                        </strong>
+
+                        <div
+                            id="previewClub"
+                            style="
+                                margin-top:7px;
+                                color:#8e9bb0;
+                                font-size:13px;
+                            "
+                        >
+                            Clube Inicial Brasil
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="button"
+                    onclick="createCareer()"
+                >
+                    COMEÇAR CARREIRA
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const countryData = {
+
+    brazil: {
+        name: "Brasil",
+        flag: "🇧🇷",
+        leagueId: "brazil",
+        leagueName: "Brasil",
+        startingClub: "brasil_inicial",
+        startingClubName: "Clube Inicial Brasil"
+    },
+
+    argentina: {
+        name: "Argentina",
+        flag: "🇦🇷",
+        leagueId: "argentina",
+        leagueName: "Argentina",
+        startingClub: "arg_inicial",
+        startingClubName: "Clube Inicial Argentina"
+    },
+
+    portugal: {
+        name: "Portugal",
+        flag: "🇵🇹",
+        leagueId: "portugal",
+        leagueName: "Portugal",
+        startingClub: "por_inicial",
+        startingClubName: "Clube Inicial Portugal"
+    },
+
+    spain: {
+        name: "Espanha",
+        flag: "🇪🇸",
+        leagueId: "spain",
+        leagueName: "Espanha",
+        startingClub: "esp_inicial",
+        startingClubName: "Clube Inicial Espanha"
+    },
+
+    england: {
+        name: "Inglaterra",
+        flag: "🏴",
+        leagueId: "england",
+        leagueName: "Inglaterra",
+        startingClub: "eng_inicial",
+        startingClubName: "Clube Inicial Inglaterra"
+    },
+
+    france: {
+        name: "França",
+        flag: "🇫🇷",
+        leagueId: "france",
+        leagueName: "França",
+        startingClub: "fra_inicial",
+        startingClubName: "Clube Inicial França"
+    },
+
+    germany: {
+        name: "Alemanha",
+        flag: "🇩🇪",
+        leagueId: "germany",
+        leagueName: "Alemanha",
+        startingClub: "ger_inicial",
+        startingClubName: "Clube Inicial Alemanha"
+    },
+
+    italy: {
+        name: "Itália",
+        flag: "🇮🇹",
+        leagueId: "italy",
+        leagueName: "Itália",
+        startingClub: "ita_inicial",
+        startingClubName: "Clube Inicial Itália"
+    }
+
+};
+
+
+function getSelectedPosition() {
+
+    const selected =
+        document.querySelector(
+            'input[name="position"]:checked'
+        );
+
+    return selected
+        ? selected.value
+        : "MEI";
+
+}
+
+
+function getSelectedStyle() {
+
+    const selected =
+        document.querySelector(
+            'input[name="style"]:checked'
+        );
+
+    return selected
+        ? selected.value
+        : "Craque Criativo";
+
+}
+
+
+function updatePreview() {
+
+    const countryKey =
+        document.getElementById(
+            "playerCountry"
+        ).value;
+
+    const country =
+        countryData[countryKey];
+
+    const name =
+        document.getElementById(
+            "playerName"
+        ).value.trim();
+
+    const age =
+        document.getElementById(
+            "playerAge"
+        ).value;
+
+    const height =
+        document.getElementById(
+            "playerHeight"
+        ).value;
+
+    const foot =
+        document.getElementById(
+            "playerFoot"
+        ).value;
+
+    const position =
+        getSelectedPosition();
+
+    const style =
+        getSelectedStyle();
+
+
+    document.getElementById(
+        "previewName"
+    ).textContent =
+        name || "Seu Jogador";
+
+
+    document.getElementById(
+        "previewCountry"
+    ).textContent =
+        `${country.flag} ${country.name}`;
+
+
+    document.getElementById(
+        "previewAge"
+    ).textContent =
+        `${age} anos`;
+
+
+    document.getElementById(
+        "previewPosition"
+    ).textContent =
+        position;
+
+
+    document.getElementById(
+        "previewStyle"
+    ).textContent =
+        style;
+
+
+    document.getElementById(
+        "previewFoot"
+    ).textContent =
+        foot;
+
+
+    document.getElementById(
+        "previewHeight"
+    ).textContent =
+        `${height.replace(".", ",")} m`;
+
+
+    document.getElementById(
+        "previewLeague"
+    ).textContent =
+        `${country.flag} ${country.leagueName}`;
+
+
+    document.getElementById(
+        "previewClub"
+    ).textContent =
+        country.startingClubName;
+
+}
+
+
+function createCareer() {
+
+    const name =
+        document.getElementById(
+            "playerName"
+        ).value.trim();
+
+    if (!name) {
+
+        alert(
+            "Digite o nome do jogador."
+        );
+
+        return;
+
+    }
+
+
+    const countryKey =
+        document.getElementById(
+            "playerCountry"
+        ).value;
+
+    const country =
+        countryData[countryKey];
+
+
+    if (!country) {
+
+        alert(
+            "Selecione um país válido."
+        );
+
+        return;
+
+    }
+
+
+    const player = {
+
+        name,
+
+        age:
+            Number(
+                document.getElementById(
+                    "playerAge"
+                ).value
+            ),
+
+        country:
+            country.name,
+
+        countryKey,
+
+        countryFlag:
+            country.flag,
+
+        height:
+            Number(
+                document.getElementById(
+                    "playerHeight"
+                ).value
+            ),
+
+        foot:
+            document.getElementById(
+                "playerFoot"
+            ).value,
+
+        position:
+            getSelectedPosition(),
+
+        style:
+            getSelectedStyle(),
+
+        overall: 68,
+
+        potential:
+            Math.floor(
+                Math.random() * 13
+            ) + 78,
+
+        season: 2026,
+
+        // =================================================
+        // IMPORTANTE:
+        // PAÍS → LIGA → CLUBE
+        // =================================================
+
+        league:
+            country.leagueId,
+
+        leagueName:
+            country.leagueName,
+
+        club:
+            country.startingClub,
+
+        clubName:
+            country.startingClubName,
+
+        money: 0,
+
+        marketValue: 200000,
+
+        salary: 1000,
+
+        goals: 0,
+
+        assists: 0,
+
+        appearances: 0,
+
+        form: 75,
+
+        energy: 100,
+
+        round: 0,
+
+        averageRating: 0,
+
+        goodMatches: 0,
+
+        trainingUsed: false,
+
+        seasonFinished: false,
+
+        seasonAward: null,
+
+        attributes: {
+
+            speed: 72,
+            finishing: 68,
+            passing: 76,
+            dribbling: 79,
+            physical: 63,
+            mental: 71,
+            positioning: 68,
+            defense: 40
+
+        },
+
+        career: {
+
+            totalGoals: 0,
+            totalAssists: 0,
+            totalAppearances: 0,
+            seasons: 0,
+            transfers: []
+
+        },
+
+        transfer: {
+
+            offer: null,
+            cooldown: 0,
+            nextCheck: 8,
+            lastTransferSeason: null
+
+        },
+
+        leagueTable: {},
+
+        schedule: [],
+
+        scheduleLeague:
+            country.leagueId
+
+    };
+
+
+    // Salva a liga inicial separadamente
+    localStorage.setItem(
+        "careerStartingLeague",
+        country.leagueId
+    );
+
+
+    // Salva o jogador
+    localStorage.setItem(
+        "careerPlayer",
+        JSON.stringify(player)
+    );
+
+
+    // Vai para a carreira
+    window.location.href =
+        "carreira.html";
+
+}
+
+
+document
+    .getElementById("playerCountry")
+    .addEventListener(
+        "change",
+        updatePreview
+    );
+
+
+document
+    .getElementById("playerName")
+    .addEventListener(
+        "input",
+        updatePreview
+    );
+
+
+document
+    .getElementById("playerAge")
+    .addEventListener(
+        "change",
+        updatePreview
+    );
+
+
+document
+    .getElementById("playerHeight")
+    .addEventListener(
+        "change",
+        updatePreview
+    );
+
+
+document
+    .getElementById("playerFoot")
+    .addEventListener(
+        "change",
+        updatePreview
+    );
+
+
+document
+    .querySelectorAll(
+        'input[name="position"], input[name="style"]'
+    )
+    .forEach(input => {
+
+        input.addEventListener(
+            "change",
+            updatePreview
+        );
+
+    });
+
+
+updatePreview();
+
+</script>
+
+</body>
+</html>

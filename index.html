@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Career Mode - Football Career Simulator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at 75% 45%, rgba(28, 92, 170, 0.15), transparent 35%),
+                #060a10;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 120px 120px;
+            z-index: 0;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            height: 78px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-content {
+            width: min(1240px, 90%);
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo-ball {
+            width: 42px;
+            height: 42px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .header-subtitle {
+            font-size: 11px;
+            color: #5d6878;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* ================= MAIN ================= */
+
+        main {
+            width: min(1240px, 90%);
+            min-height: calc(100vh - 78px);
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: 1fr 0.9fr;
+            align-items: center;
+            gap: 70px;
+
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ================= LEFT ================= */
+
+        .hero {
+            padding-bottom: 30px;
+        }
+
+        .eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            color: #5c9cff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+
+            margin-bottom: 25px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 35px;
+            height: 2px;
+            background: #5c9cff;
+        }
+
+        h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(90px, 9vw, 145px);
+            line-height: 0.78;
+            font-weight: 900;
+            letter-spacing: -3px;
+            text-transform: uppercase;
+            margin-bottom: 38px;
+        }
+
+        h1 span {
+            display: block;
+            color: #4f94ff;
+        }
+
+        .description {
+            max-width: 570px;
+            color: #8b96a7;
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 38px;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .buttons {
+            width: 360px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        button {
+            height: 62px;
+            border: none;
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 24px;
+
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+
+            transition: 0.25s ease;
+        }
+
+        .primary {
+            background: #5798f7;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #6da7ff;
+            transform: translateX(5px);
+        }
+
+        .secondary {
+            background: #101920;
+            color: white;
+            border: 1px solid #26333f;
+        }
+
+        .secondary:hover {
+            background: #17232d;
+            transform: translateX(5px);
+        }
+
+        .disabled {
+            background: #0a1117;
+            color: #4d5660;
+            border: 1px solid #111a21;
+            cursor: not-allowed;
+        }
+
+        .arrow {
+            font-size: 22px;
+            font-weight: 400;
+        }
+
+        /* ================= PLAYER AREA ================= */
+
+        .player-area {
+            height: 600px;
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* glow atrás do card */
+
+        .player-area::before {
+            content: "";
+            position: absolute;
+
+            width: 430px;
+            height: 430px;
+
+            background: rgba(47, 117, 220, 0.12);
+            filter: blur(100px);
+            border-radius: 50%;
+        }
+
+        /* ================= CARD ================= */
+
+        .player-card {
+            width: 355px;
+            height: 505px;
+
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #1b2739 0%,
+                    #101927 45%,
+                    #0b111a 100%
+                );
+
+            border: 1px solid rgba(255,255,255,0.1);
+
+            transform: rotate(4deg);
+
+            box-shadow:
+                0 30px 80px rgba(0,0,0,0.55),
+                inset 0 0 60px rgba(55,130,230,0.05);
+        }
+
+        .player-card::before {
+            content: "";
+
+            position: absolute;
+            width: 450px;
+            height: 450px;
+
+            top: -180px;
+            right: -200px;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow:
+                0 0 0 45px rgba(255,255,255,0.015),
+                0 0 0 90px rgba(255,255,255,0.01);
+        }
+
+        .card-number {
+            position: absolute;
+            top: 22px;
+            right: 28px;
+
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 75px;
+            line-height: 1;
+
+            font-weight: 900;
+            color: rgba(255,255,255,0.06);
+        }
+
+        .card-position {
+            position: absolute;
+            top: 27px;
+            left: 28px;
+
+            color: #6aa4ff;
+
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        /* ================= SILHUETA ================= */
+
+        .player-silhouette {
+            position: absolute;
+
+            left: 50%;
+            top: 48%;
+
+            transform: translate(-50%, -50%);
+
+            width: 190px;
+            height: 270px;
+        }
+
+        .head {
+            position: absolute;
+
+            width: 62px;
+            height: 62px;
+
+            border-radius: 50%;
+
+            left: 64px;
+            top: 0;
+
+            background: #263445;
+
+            box-shadow:
+                inset -8px -5px 0 rgba(0,0,0,0.12);
+        }
+
+        .neck {
+            position: absolute;
+
+            width: 27px;
+            height: 30px;
+
+            left: 82px;
+            top: 52px;
+
+            background: #202d3d;
+        }
+
+        .body {
+            position: absolute;
+
+            width: 105px;
+            height: 120px;
+
+            left: 42px;
+            top: 70px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #182331,
+                    #25364b,
+                    #182331
+                );
+
+            clip-path: polygon(
+                20% 0,
+                80% 0,
+                100% 18%,
+                85% 100%,
+                15% 100%,
+                0 18%
+            );
+        }
+
+        .arm-left,
+        .arm-right {
+            position: absolute;
+
+            width: 30px;
+            height: 115px;
+
+            top: 78px;
+
+            background: #1b2838;
+            border-radius: 18px;
+        }
+
+        .arm-left {
+            left: 17px;
+            transform: rotate(13deg);
+        }
+
+        .arm-right {
+            right: 17px;
+            transform: rotate(-13deg);
+        }
+
+        .leg-left,
+        .leg-right {
+            position: absolute;
+
+            width: 38px;
+            height: 105px;
+
+            top: 177px;
+
+            background: #131e2b;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .leg-left {
+            left: 55px;
+            transform: rotate(2deg);
+        }
+
+        .leg-right {
+            right: 55px;
+            transform: rotate(-2deg);
+        }
+
+        .boot-left,
+        .boot-right {
+            position: absolute;
+
+            width: 58px;
+            height: 20px;
+
+            top: 258px;
+
+            background: #0a0f16;
+            border-radius: 10px 5px 5px 4px;
+        }
+
+        .boot-left {
+            left: 38px;
+        }
+
+        .boot-right {
+            right: 38px;
+        }
+
+        /* ================= CARD FOOTER ================= */
+
+        .card-bottom {
+            position: absolute;
+
+            left: 28px;
+            right: 28px;
+            bottom: 27px;
+        }
+
+        .card-name {
+            font-family: 'Barlow Condensed', sans-serif;
+
+            font-size: 42px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            margin-bottom: 5px;
+        }
+
+        .card-info {
+            color: #647286;
+
+            font-size: 9px;
+            font-weight: 700;
+
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ================= OVERALL ================= */
+
+        .overall-box {
+            position: absolute;
+
+            bottom: 40px;
+            left: -45px;
+
+            width: 135px;
+            height: 105px;
+
+            background: #080e15;
+            border: 1px solid #1b2835;
+
+            padding: 17px 20px;
+
+            transform: rotate(-4deg);
+        }
+
+        .overall-number {
+            font-family: 'Barlow Condensed', sans-serif;
+
+            font-size: 40px;
+            font-weight: 800;
+
+            line-height: 0.9;
+        }
+
+        .overall-label {
+            color: #687588;
+
+            font-size: 9px;
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
+
+            margin-top: 8px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            main {
+                grid-template-columns: 1fr;
+                padding: 70px 0;
+                gap: 30px;
+            }
+
+            .hero {
+                text-align: center;
+            }
+
+            .eyebrow {
+                justify-content: center;
+            }
+
+            .description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .buttons {
+                margin: auto;
+            }
+
+            .player-area {
+                height: 550px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .header-subtitle {
+                display: none;
+            }
+
+            h1 {
+                font-size: 85px;
+            }
+
+            .buttons {
+                width: 100%;
+            }
+
+            .player-card {
+                width: 300px;
+                height: 440px;
+            }
+
+            .overall-box {
+                left: -10px;
+            }
+
+            .player-area {
+                transform: scale(0.9);
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <div class="header-content">
+
+            <div class="logo">
+
+                <div class="logo-ball">
+                    ⚽
+                </div>
+
+                CAREER MODE
+
+            </div>
+
+            <div class="header-subtitle">
+                Football Career Simulator
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+        <!-- ESQUERDA -->
+
+        <section class="hero">
+
+            <div class="eyebrow">
+                Sua carreira começa agora
+            </div>
+
+            <h1>
+                BECOME
+                <span>LEGEND</span>
+            </h1>
+
+            <p class="description">
+                Crie seu jogador, comece sua carreira do zero, evolua seus atributos,
+                dispute temporadas, receba propostas e construa seu próprio legado
+                no futebol.
+            </p>
+
+
+            <div class="buttons">
+
+                <button class="primary" onclick="newCareer()">
+
+                    <span>⚽ &nbsp; NOVA CARREIRA</span>
+
+                    <span class="arrow">→</span>
+
+                </button>
+
+
+                <button class="secondary" onclick="continueCareer()">
+
+                    <span>CONTINUAR CARREIRA</span>
+
+                    <span class="arrow">→</span>
+
+                </button>
+
+
+                <button class="disabled">
+
+                    <span>⚙ CONFIGURAÇÕES</span>
+
+                    <span>⚙</span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- DIREITA -->
+
+        <section class="player-area">
+
+
+            <div class="player-card">
+
+                <div class="card-number">
+                    10
+                </div>
+
+                <div class="card-position">
+                    MEIA OFENSIVO
+                </div>
+
+
+                <!-- SILHUETA DO JOGADOR -->
+
+                <div class="player-silhouette">
+
+                    <div class="head"></div>
+
+                    <div class="neck"></div>
+
+                    <div class="body"></div>
+
+                    <div class="arm-left"></div>
+
+                    <div class="arm-right"></div>
+
+                    <div class="leg-left"></div>
+
+                    <div class="leg-right"></div>
+
+                    <div class="boot-left"></div>
+
+                    <div class="boot-right"></div>
+
+                </div>
+
+
+                <div class="card-bottom">
+
+                    <div class="card-name">
+                        SEU JOGADOR
+                    </div>
+
+                    <div class="card-info">
+                        YOUR STORY · 2026
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="overall-box">
+
+                <div class="overall-number">
+                    68
+                </div>
+
+                <div class="overall-label">
+                    Overall inicial
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        function newCareer() {
+
+            window.location.href = "./pages/criar-jogador.html";
+
+        }
+
+
+        function continueCareer() {
+
+            const player = localStorage.getItem("careerPlayer");
+
+            if (player) {
+
+                window.location.href = "pages/carreira.html";
+
+            } else {
+
+                alert("Você ainda não possui uma carreira salva.");
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
